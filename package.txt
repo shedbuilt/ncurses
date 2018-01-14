@@ -1,5 +1,5 @@
 NAME=ncurses
 VERSION=6.0
-REVISION=2
+REVISION=3
 SRC=http://ftp.gnu.org/gnu//ncurses/ncurses-6.0.tar.gz
 SRCMD5=ee13d052e1ead260d7c28071f46eefb1
