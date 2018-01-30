@@ -36,6 +36,6 @@ if [ "$SHED_BUILDMODE" != 'toolchain' ]; then
     echo "INPUT(-lncursesw)" > ${SHED_FAKEROOT}/usr/lib/libcursesw.so
     ln -sfv libncurses.so      ${SHED_FAKEROOT}/usr/lib/libcurses.so
     # Install documentation
-    mkdir -pv ${SHED_FAKEROOT}/usr/share/doc/ncurses-6.0
-    cp -v -R doc/* ${SHED_FAKEROOT}/usr/share/doc/ncurses-6.0
+    mkdir -pv ${SHED_FAKEROOT}/usr/share/doc/ncurses-6.1
+    cp -v -R doc/* ${SHED_FAKEROOT}/usr/share/doc/ncurses-6.1
 fi
