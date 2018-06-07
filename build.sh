@@ -21,7 +21,6 @@ else
                 --enable-pc-files       \
                 --enable-widec || exit 1
 fi
-SHED_PKG_LOCAL_DOCDIR="${SHED_PKG_LOCAL_PREFIX}/share/doc/${SHED_PKG_NAME}-${SHED_PKG_VERSION}"
 
 # Build and Install
 make -j $SHED_NUM_JOBS &&
@@ -29,6 +28,10 @@ make DESTDIR="$SHED_FAKE_ROOT" install || exit 1
 
 # Rearrange
 if [ -z "${SHED_PKG_LOCAL_OPTIONS[toolchain]}" ]; then
+    if [ -d "${SHED_FAKE_ROOT}/usr/share/pkgconfig" ]; then
+        # In release builds, ncurses is putting its pkg-config files in an unexpected place
+        mv "${SHED_FAKE_ROOT}/usr/share/pkgconfig" "${SHED_FAKE_ROOT}/usr/lib/pkgconfig"
+    fi
     mkdir -v "${SHED_FAKE_ROOT}/lib" &&
     mv -v "${SHED_FAKE_ROOT}/usr/lib/"libncursesw.so.6* "${SHED_FAKE_ROOT}/lib" &&
     ln -sfv ../../lib/$(readlink "${SHED_FAKE_ROOT}/usr/lib/libncursesw.so") "${SHED_FAKE_ROOT}/usr/lib/libncursesw.so" || exit 1
@@ -44,6 +47,6 @@ fi
 
 # Install Documentation
 if [ -n "${SHED_PKG_LOCAL_OPTIONS[docs]}" ]; then
-    mkdir -pv "${SHED_FAKE_ROOT}${SHED_PKG_LOCAL_DOCDIR}" &&
-    cp -v -R doc/* "${SHED_FAKE_ROOT}/usr/share/doc/ncurses-${SHED_PKG_VERSION}" || exit 1
+    mkdir -pv "${SHED_FAKE_ROOT}${SHED_PKG_DOCS_INSTALL_DIR}" &&
+    cp -v -R doc/* "${SHED_FAKE_ROOT}${SHED_PKG_DOCS_INSTALL_DIR}" || exit 1
 fi
